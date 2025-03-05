@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "declaration": false,
+        "outDir": "../../dist/apps/auth"
+    },
+    "exclude": [
+        "node_modules",
+        "dist",
+        "test",
+        "**/*spec.ts"
+    ],
+    "extends": "../../tsconfig.json",
+    "include": [
+        "src/**/*"
+    ]
+}
