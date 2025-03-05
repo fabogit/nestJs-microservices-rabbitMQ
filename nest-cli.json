@@ -1,8 +1,6 @@
 {
-  "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
   "compilerOptions": {
-    "deleteOutDir": true,
     "tsConfigPath": "apps/orders/tsconfig.app.json",
     "webpack": true
   },
@@ -25,6 +23,15 @@
       "root": "apps/billing",
       "sourceRoot": "apps/billing/src",
       "type": "application"
+    },
+    "common": {
+      "compilerOptions": {
+        "tsConfigPath": "libs/common/tsconfig.lib.json"
+      },
+      "entryFile": "index",
+      "root": "libs/common",
+      "sourceRoot": "libs/common/src",
+      "type": "library"
     },
     "orders": {
       "compilerOptions": {
