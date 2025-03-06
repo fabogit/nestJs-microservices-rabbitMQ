@@ -79,7 +79,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
    * @async
    * @param {FilterQuery<TDocument>} filterQuery The filter query to select the document to update.
    * @param {UpdateQuery<TDocument>} update The update operations to apply to the document.
-   * @returns {Promise<TDocument>} A Promise that resolves to the updated document.
+   * @returns A Promise that resolves to the updated document.
    * @throws {NotFoundException} If no document is found matching the filter query.
    */
   async findOneAndUpdate(
@@ -105,7 +105,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
    * @async
    * @param {FilterQuery<TDocument>} filterQuery The filter query to determine if a document exists for update or insertion.
    * @param {Partial<TDocument>} document The document data to update or insert.
-   * @returns {Promise<TDocument>} A Promise that resolves to the updated or inserted document.
+   * @returns A Promise that resolves to the updated or inserted document.
    */
   async upsert(
     filterQuery: FilterQuery<TDocument>,
@@ -122,7 +122,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
    * Finds multiple documents based on the provided filter query.
    * @async
    * @param {FilterQuery<TDocument>} filterQuery The filter query to select documents.
-   * @returns {Promise<TDocument[]>} A Promise that resolves to an array of found documents.
+   * @returns A Promise that resolves to an array of found documents.
    */
   async find(filterQuery: FilterQuery<TDocument>) {
     return this.model.find(filterQuery, {}, { lean: true }); // Find documents matching the query, return plain JavaScript objects
