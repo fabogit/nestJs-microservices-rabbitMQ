@@ -16,7 +16,29 @@ services:
       - .:/user/src/app
       - /usr/src/app/node_modules
     ports:
-      - '3000:3000'
+      - 3000:3000
+  billing:
+    container_name: billing
+    build:
+      context: .
+      dockerfile: ./apps/billing/Dockerfile
+      target: development
+    command: pnpm run start:dev billing
+    env_file:
+      - ./apps/billing/.env
+    depends_on:
+      - mongodb-primary
+      - mongodb-secondary
+      - mongodb-arbiter
+    volumes:
+      - .:/user/src/app
+      - /usr/src/app/node_modules
+
+  rabbitmq:
+    image: rabbitmq:4
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
 
   mongodb-primary:
     container_name: mongodb-primary
@@ -29,7 +51,7 @@ services:
     volumes:
       - 'mongodb_master_data:/bitnami/mongodb'
     ports:
-      - '27017:27017'
+      - 27017:27017
 
   mongodb-secondary:
     container_name: mongodb-secondary
