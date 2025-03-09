@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import Joi from 'joi';
+import * as Joi from 'joi';
 import { BILLING_SERVICE, DatabaseModule, RmqModule } from '@app/common';
 import { OrdersController } from './orders.controller';
 import { OrdersService } from './orders.service';

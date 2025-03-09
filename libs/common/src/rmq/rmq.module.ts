@@ -4,12 +4,12 @@ import { ConfigService } from '@nestjs/config';
 import { RmqService } from './rmq.service';
 
 /**
- * Interface defining the options for registering the RmqModule.
+ * Interface defining the options for registering the `RmqModule`.
  * It specifies the name used to identify the RabbitMQ client.
  */
 interface RmqModuleOptions {
   /**
-   * The name of the RabbitMQ client. This name is used to configure and inject the client.
+   * The `name` of the RabbitMQ client. This name is used to configure and inject the client.
    */
   name: string;
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { RmqOptions, Transport } from '@nestjs/microservices';
+import { RmqContext, RmqOptions, Transport } from '@nestjs/microservices';
 
 /**
  * Injectable service for providing RabbitMQ connection options.
@@ -39,5 +39,17 @@ export class RmqService {
         persistent: true,
       },
     };
+  }
+
+  /**
+   * Acknowledges a RabbitMQ message.
+   * This method manually acknowledges a message in RabbitMQ to confirm successful processing.
+   * It extracts the channel and original message from the `RmqContext` to perform the acknowledgement.
+   * @param {RmqContext} context - The `RmqContext` object provided by NestJS, containing channel and message details.
+   */
+  ack(context: RmqContext) {
+    const channel = context.getChannelRef();
+    const originalMessage = context.getMessage();
+    channel.ack(originalMessage);
   }
 }
