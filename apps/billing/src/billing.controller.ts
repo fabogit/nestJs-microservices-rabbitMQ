@@ -1,7 +1,7 @@
-import { Controller } from '@nestjs/common';
+import { Controller, UseGuards } from '@nestjs/common';
 import { Ctx, EventPattern, Payload, RmqContext } from '@nestjs/microservices';
 import { BillingService } from './billing.service';
-import { ORDER_CREATED, RmqService } from '@app/common';
+import { JwtAuthGuard, ORDER_CREATED, RmqService } from '@app/common';
 
 /**
  * Controller for handling billing-related events.
@@ -30,13 +30,14 @@ export class BillingController {
    * this method processes the billing for the created order and acknowledges the message to RabbitMQ.
    * @EventPattern(ORDER_CREATED) Decorator that specifies this method as an event handler for the 'ORDER_CREATED' pattern.
    * @param {any} data - The payload of the incoming RabbitMQ message, expected to contain order creation data.
-   * @Payload() Decorator that extracts the message payload from the RmqContext.
-   * @param {RmqContext} context - The RmqContext object provided by NestJS, containing context information about the incoming RabbitMQ message, including the channel and original message.
-   * @Ctx() Decorator that injects the RmqContext object.
+   * @Payload() Decorator that extracts the message payload from the `RmqContext`.
+   * @param {RmqContext} context - The `RmqContext` object provided by NestJS, containing context information about the incoming RabbitMQ message, including the channel and original message.
+   * @Ctx() Decorator that injects the `RmqContext` object.
    * @async
    * @returns A Promise that resolves after processing the order creation event and acknowledging the message.
    */
   @EventPattern(ORDER_CREATED)
+  @UseGuards(JwtAuthGuard) // will throw if no jwt is provided
   async handleOrderCreated(@Payload() data: any, @Ctx() context: RmqContext) {
     this.billingService.bill(data); // Delegates the billing processing to the BillingService, passing the received order data.
     this.rmqService.ack(context); // Acknowledges the RabbitMQ message to confirm successful processing and remove it from the queue.

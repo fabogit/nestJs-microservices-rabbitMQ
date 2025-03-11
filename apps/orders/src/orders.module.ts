@@ -2,7 +2,12 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import * as Joi from 'joi';
-import { BILLING_SERVICE, DatabaseModule, RmqModule } from '@app/common';
+import {
+  AuthModule,
+  BILLING_SERVICE,
+  DatabaseModule,
+  RmqModule,
+} from '@app/common';
 import { OrdersController } from './orders.controller';
 import { OrdersService } from './orders.service';
 import { OrdersRepository } from './orders.repository';
@@ -11,7 +16,7 @@ import { Order, OrderSchema } from './models/order.schema';
 /**
  * Module for managing orders within the application.
  * This module aggregates functionalities related to order creation, retrieval, and processing.
- * It configures database interaction, RabbitMQ communication for billing, and input validation via Joi.
+ * It configures auth guards for jwt, database interaction, RabbitMQ communication for billing, and input validation via Joi.
  * @exports {OrdersModule} Exports the `OrdersModule` class, making it available for import in other modules.
  */
 @Module({
@@ -25,6 +30,8 @@ import { Order, OrderSchema } from './models/order.schema';
       }),
       envFilePath: './apps/orders/.env',
     }),
+    // Common module to handle jwt cookies
+    AuthModule,
     DatabaseModule,
     // Registers Mongoose module for the Order entity and schema
     MongooseModule.forFeature([{ name: Order.name, schema: OrderSchema }]),

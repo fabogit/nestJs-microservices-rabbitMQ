@@ -35,7 +35,10 @@ export class OrdersService {
    * @returns {Promise<Order>} A Promise that resolves to the newly created Order object.
    * @throws {Error} If any error occurs during order creation or billing event emission, the transaction is aborted and the error is thrown.
    */
-  async createOrder(request: CreateOrderReq): Promise<Order> {
+  async createOrder(
+    request: CreateOrderReq,
+    authentication: string,
+  ): Promise<Order> {
     // Start a new database transaction
     const session = await this.ordersRepository.startTransaction();
     try {
@@ -45,8 +48,9 @@ export class OrdersService {
       await lastValueFrom(
         // Use clientProxy to emit the event
         this.billingClient.emit(ORDER_CREATED, {
-          // Pass the order creation request as payload
+          // Pass the order creation request and jwt as payload
           request,
+          Authentication: authentication,
         }),
       );
       // Commit the transaction if both order creation and event emission are successful

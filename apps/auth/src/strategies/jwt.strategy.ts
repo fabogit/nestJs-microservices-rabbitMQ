@@ -33,7 +33,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
        */
       jwtFromRequest: ExtractJwt.fromExtractors([
         (request: any) => {
-          // Extracts the JWT from the 'Authentication' cookie of the request.
+          // Extracts the JWT from the 'Authentication' cookie of the request. Added by libs/common/src/auth/jwt-auth.guard
           return request?.Authentication;
         },
       ]),
