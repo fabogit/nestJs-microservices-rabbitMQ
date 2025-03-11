@@ -29,7 +29,7 @@
 ## Installation
 
 ```bash
-$ npm install
+$ pnpm install
 ```
 
 ## Running the app
@@ -39,11 +39,19 @@ $ npm install
 $ npm run start
 
 # watch mode
-$ npm run start:dev
+$ npm run start:dev APP_NAME(auth/billing/orders)
 
 # production mode
 $ npm run start:prod
 ```
+
+## Start all microservices
+
+```bash
+docker compose up --build -V
+```
+
+and use the Postman collection to call the API, `docker compose down -v` to clear data and exit
 
 ## Test
 
